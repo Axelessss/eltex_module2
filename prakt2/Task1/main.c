@@ -1,70 +1,17 @@
+#pragma once
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include "contact.h"
 
 #define N 50
 #define M 20
 #define U 100
 
-typedef struct FIO
-{
-    char surname[N];
-    char name[N];
-    char partonymic[N];
-}FIO;
-
-typedef struct Job
-{
-    char corp[N];
-    char title[N];
-}Job;
-
-typedef struct Phone
-{
-    char phone_type[M];
-    char number[M];
-}Phone;
-
-typedef struct Email
-{
-    char email[N];
-}Email;
-
-typedef struct Social
-{
-    char name[M];
-    char url[U];
-}Social;
-
-typedef struct Messenger
-{
-    char name[M];
-    char nickname[M];
-}Messenger;
-
-typedef struct Contact
-{
-    int id;
-    FIO fio;
-    Job job;
-    Phone phone[5];
-    Email email[5];
-    Social socials[5];
-    Messenger messengers[5];
-}Contact;
-
-
-void add(Contact &contacts)
-{
-
-}
-
-void add()
+void add(Contact *contact, int id)
 {
     char con;
-    short operation;
-    Contact contact;
-    contact.id = 0;
+    int operation;
     int count;
     bool shutdown = false;
 
@@ -79,7 +26,7 @@ void add()
             printf("Поле не должно быть пустым!");
         else
         {
-            strncpy(contact.fio.surname, buffer, N);
+            strncpy(contact->fio.surname, buffer, N);
             break;
         }
     }
@@ -92,35 +39,35 @@ void add()
             printf("Поле не должно быть пустым!");
         else
         {
-            strncpy(contact.fio.name, buffer, N);
+            strncpy(contact->fio.name, buffer, N);
             break;
         }
     }
     
 
-    printf("Желаете ли продолжить заполнение? Д/н");
+    printf("Желаете ли продолжить заполнение? +/-");
     scanf("%c", &con);
-    if (con == 'Д'||con == 'д')
+    if (con == '+')
         while (true)
         {       
             if (shutdown)
                 break;
 
-            printf("Что заполнить:\n1-Отчество\n2-Место работы\n3-Должность\n4-Номер телефона\n5-E-mail\n6-Соцсети\n7-Мессенджеры\nЛюбая другая кнопка - Выход");
+            printf("Что заполнить:\n1-Отчество\n2-Место работы и должность\n3-Номер телефона\n4-E-mail\n5-Соцсети\n6-Мессенджеры\nЛюбая другая кнопка - Выход");
             scanf("%d", &operation);
             switch(operation)
             {
                 case 1:
                     printf("Введите отчество");
-                    fgets(contact.fio.partonymic, sizeof(contact.fio.partonymic), stdin);
+                    fgets(contact->fio.partonymic, sizeof(contact->fio.partonymic), stdin);
                     break;
                 
                 case 2:
                     printf("Введите  место работы");
-                    fgets(contact.job.corp, sizeof(contact.job.corp), stdin);
+                    fgets(contact->job.corp, sizeof(contact->job.corp), stdin);
 
                     printf("Введите  должность");
-                    fgets(contact.job.title, sizeof(contact.job.title), stdin);
+                    fgets(contact->job.title, sizeof(contact->job.title), stdin);
                     break;
                 
                 case 3:
@@ -128,60 +75,55 @@ void add()
                     scanf("%d", &count);
                     for(int i=0;i<count;i++)
                     {
+                        contact->phone[i].count = count;
+
                         printf("Укажите тип телефона: ");      
-                        fgets(contact.phone[i].phone_type, sizeof(contact.phone[i].phone_type), stdin);
+                        fgets(contact->phone[i].phone_type, sizeof(contact->phone[i].phone_type), stdin);
 
                         printf("Укажите номер телефона: ");      
-                        fgets(contact.phone[i].number, sizeof(contact.phone[i].number), stdin);
+                        fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
                     }
                     break;
 
                 case 4:
-                    printf ("Введите количество номеров телефона: ");
-                    scanf("%d", &count);
-                    for(int i=0;i<count;i++)
-                    {
-                        printf("Укажите тип телефона: ");      
-                        fgets(contact.phone[i].phone_type, sizeof(contact.phone[i].phone_type), stdin);
-
-                        printf("Укажите номер телефона: ");      
-                        fgets(contact.phone[i].number, sizeof(contact.phone[i].number), stdin);
-                    }
-                    break;
-
-                case 5:
                     printf ("Введите количество e-mail адресов: ");
                     scanf("%d", &count);
                     for(int i=0;i<count;i++)
                     {
+                        contact->email[i].count = count;
+
                         printf("Введите электронный адрес: ");      
-                        fgets(contact.phone[i].number, sizeof(contact.phone[i].number), stdin);
+                        fgets(contact->email[i].email, sizeof(contact->email[i].email), stdin);
                     }
                     break;
 
-                case 6:
+                case 5:
                     printf ("Введите количество профилей в соцсетях: ");
                     scanf("%d", &count);
                     for(int i=0;i<count;i++)
                     {
+                        contact->socials[i].count = count;
+
                         printf("Укажите название соцсети: ");      
-                        fgets(contact.phone[i].phone_type, sizeof(contact.phone[i].phone_type), stdin);
+                        fgets(contact->socials[i].name, sizeof(contact->socials[i].name), stdin);
 
                         printf("Укажите ссылку на ваш профиль: ");      
-                        fgets(contact.phone[i].number, sizeof(contact.phone[i].number), stdin);
+                        fgets(contact->socials[i].url, sizeof(contact->socials[i].url), stdin);
                     }
                     break;
 
-                case 7:
+                case 6:
                     printf ("Введите количество профилей в мессенджерах: ");
                     scanf("%d", &count);
                     for(int i=0;i<count;i++)
                     {
+                        contact->messengers[i].count = count;
+
                         printf("Укажите название мессенджера: ");      
-                        fgets(contact.phone[i].phone_type, sizeof(contact.phone[i].phone_type), stdin);
+                        fgets(contact->messengers[i].name, sizeof(contact->messengers[i].name), stdin);
 
                         printf("Укажите имя пользователя: ");      
-                        fgets(contact.phone[i].number, sizeof(contact.phone[i].number), stdin);
+                        fgets(contact->messengers[i].nickname, sizeof(contact->messengers[i].nickname), stdin);
                     }
                     break;
                 
@@ -193,9 +135,196 @@ void add()
         }
 }
 
+void change(Contact *contact)
+{
+    int operation;
+    int sub_operation;
+    int ID;
+    int count;
+    bool shutdown = false;
+    char buffer[N];
+
+    while (true)
+    {       
+        if (shutdown)
+            break;
+
+        printf("Что заполнить:\n1-Фамилия\n2-Имя\n3-Отчество\n4-Место работы\n5-Должность\n6-Номер телефона\n7-E-mail\n8-Соцсети\n9-Мессенджеры\n");
+        printf("Любая другая кнопка - Выход\n");
+        scanf("%d", &operation);
+        
+        switch(operation)
+        {
+            case 1:
+                while (true)
+                {
+                    printf("Введите фамилию: ");
+                    fgets(buffer, sizeof(buffer), stdin);
+                    if (strlen(buffer)==0)
+                        printf("Поле не должно быть пустым!");
+                    else
+                    {
+                        strncpy(contact->fio.surname, buffer, N);
+                        break;
+                    }
+                }
+                break;
+
+            case 2:
+                while (true)
+                {
+                    printf("Введите фамилию: ");
+                    fgets(buffer, sizeof(buffer), stdin);
+                    if (strlen(buffer)==0)
+                        printf("Поле не должно быть пустым!");
+                    else
+                    {
+                        strncpy(contact->fio.surname, buffer, N);
+                        break;
+                    }
+                }
+                break;
+
+            case 3:
+                printf("Введите отчество");
+                fgets(contact->fio.partonymic, sizeof(contact->fio.partonymic), stdin);
+                break;
+                
+            case 4:
+                printf("Введите  место работы");
+                fgets(contact->job.corp, sizeof(contact->job.corp), stdin);
+
+                printf("Введите  должность");
+                fgets(contact->job.title, sizeof(contact->job.title), stdin);
+                break;
+                
+            case 5:
+                printf ("Введите количество номеров телефона: ");
+                scanf("%d", &count);
+                for(int i=0;i<count;i++)
+                {
+                    printf("Укажите тип телефона: ");      
+                    fgets(contact->phone[i].phone_type, sizeof(contact->phone[i].phone_type), stdin);
+
+                    printf("Укажите номер телефона: ");      
+                        fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
+                }
+                break;
+
+            case 6:
+                printf("1-удалить номер телефона 2-добавить номер телефона 3-удалить все телефоны");
+                scanf("%d", &sub_operation);
+
+                if (sub_operation==1)
+                {
+                    printf("Введите ID телефона для удаления: ");
+                    scanf("%d", &ID);
+                }
+
+                else if (sub_operation==2)
+                {
+                    printf ("Введите количество номеров телефона: ");
+                    scanf("%d", &count);
+                for(int i=0;i<count;i++)
+                {
+                    printf("Укажите тип телефона: ");      
+                    fgets(contact->phone[i].phone_type, sizeof(contact->phone[i].phone_type), stdin);
+
+                    printf("Укажите номер телефона: ");      
+                    fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
+                }
+                }
+                
+                break;
+
+            case 7:
+                printf ("Введите количество e-mail адресов: ");
+                scanf("%d", &count);
+                for(int i=0;i<count;i++)
+                {
+                    printf("Введите электронный адрес: ");      
+                    fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
+                }
+                break;
+
+            case 8:
+                printf ("Введите количество профилей в соцсетях: ");
+                scanf("%d", &count);
+                for(int i=0;i<count;i++)
+                {
+                    printf("Укажите название соцсети: ");      
+                    fgets(contact->phone[i].phone_type, sizeof(contact->phone[i].phone_type), stdin);
+
+                    printf("Укажите ссылку на ваш профиль: ");      
+                    fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
+                }
+                break;
+
+            case 9:
+                printf ("Введите количество профилей в мессенджерах: ");
+                scanf("%d", &count);
+                for(int i=0;i<count;i++)
+                {
+                    printf("Укажите название мессенджера: ");      
+                    fgets(contact->phone[i].phone_type, sizeof(contact->phone[i].phone_type), stdin);
+
+                    printf("Укажите имя пользователя: ");      
+                    fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
+                }
+                break;
+                
+            default:
+                shutdown = true;
+                break;
+                
+        }
+    }
+}
+
+void remove(Contact *contact, int index)
+{
+
+}
+
 int main()
 {
     Contact contacts[21];
+    int action;
+    int count = 0;
+    bool shutdown = false;
+    int ID;
+    while (true)
+    {
+        if (shutdown)
+            break;
 
+        printf("Добро пожаловать в список контактов! Выберите желаемое действие:\n1-добавить контакт\n2-редактировать контакт\n3-удалить контакт\n4-просмотр списка контактов\n");
+        printf("Для закрытия программы нажмите любую другую кнопку\n");
+        scanf("%d", &action);
+
+        switch(action)
+        {
+            case 1:
+                add(&contacts[count], count);
+                count++;
+                break;
+
+            case 2:
+                printf("Введите ID контакта, который хотите отредактировать: ");
+                scanf("%d", &ID);
+
+                change(&contacts[ID]);
+                break;
+            
+            case 3:
+                printf("Введите ID контакта, который хотите удалить: ");
+                scanf("%d", &ID);
+
+                remove(&contacts[ID], ID);
+                break;
+        }
+    }
+    add(&contacts[0]);
+    puts(contacts[0].fio.name);
 
 }
