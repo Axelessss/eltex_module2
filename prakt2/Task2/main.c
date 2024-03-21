@@ -1,68 +1,74 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
+#include "header.h"
+
 
 bool input(int operation, bool shutdown)
 {
     float a, b;
     float result;
-    if (!shutdown);
-        printf("Введите первый аргумент: ");
-        scanf("%f", &a);
 
     switch(operation)
         {
             case 1:
+                printf("Введите первый аргумент: ");
+            scanf("%f", &a);
                 printf("Введите второй аргумент: ");
                 scanf("%f", &b);
                 result = sum(a, b);
                 break;
             
             case 2:
+                printf("Введите первый аргумент: ");
+            scanf("%f", &a);
                 printf("Введите второй аргумент: ");
                 scanf("%f", &b);
                 result = subtract(a, b);
                 break;
             
             case 3:
+                printf("Введите первый аргумент: ");
+                scanf("%f", &a);
                 printf("Введите второй аргумент: ");
                 scanf("%f", &b);
                 result = mul(a, b);
                 break;
             
             case 4:
-                printf("Введите второй аргумент: ");
+                printf("Введите делимое: ");
+                scanf("%f", &a);
+                printf("Введите делитель: ");
                 scanf("%f", &b);
                 result = div(a, b);
                 break;
             
             case 5:
-                printf("Введите второй аргумент: ");
+                printf("Введите основание: ");
+                scanf("%f", &a);
+                printf("Введите показатель: ");
                 scanf("%f", &b);
                 result = deg(a, b);
                 break;
             
             case 6:
-                printf("Введите второй аргумент: ");
+                printf("Введите подкоренной аргумент: ");
+                scanf("%f", &a);
+                printf("Введите степень корня: ");
                 scanf("%f", &b);
                 result = root(a, b);
                 break;
             
             case 7:
-                
+                printf("Введите аргумент: ");
+                scanf("%f", &a);
                 result = e(a);
                 break;
             
-            case 8:
+            default:
                 shutdown=true;
                 break;
-            
-            default:
-                printf("Неопознанная команда");
-                break;
         }
-
-    
 
     if (shutdown)
         return true;
@@ -73,66 +79,39 @@ bool input(int operation, bool shutdown)
     }
 }
 
-void sum(float a, float b)
+float sum(float a, float b)
 {
     return a+b;
 }
 
-void subtract(float a, float b)
+float subtract(float a, float b)
 {
-    float a, b;
-    printf("Введите первый аргумент: ");
-    scanf("%f", &a);
-    printf("Введите второй аргумент: ");
-    scanf("%f", &b);
+    return a-b;
 }
 
-void mul(float a, float b)
+float mul(float a, float b)
 {
-    float a, b;
-    printf("Введите первый аргумент: ");
-    scanf("%f", &a);
-    printf("Введите второй аргумент: ");
-    scanf("%f", &b);
-    printf("Результат = %f\n", a*b);
+    return a*b;
 }
 
-void div(float a, float b)
+float div(float a, float b)
 {
-    float a, b;
-    printf("Введите первый аргумент: ");
-    scanf("%f", &a);
-    printf("Введите второй аргумент: ");
-    scanf("%f", &b);
-    printf("Результат = %f\n", a/b);
+    return a/b;
 }
 
-void deg(float a, float b)
+float deg(float a, float b)
 {
-    float a, b;
-    printf("Введите основание степени: ");
-    scanf("%f", &a);
-    printf("Введите показатель степени: ");
-    scanf("%f", &b);
-    printf("Результат = %f\n", pow(a, b));
+    return pow(a, b);
 }
 
-void root(float a, float b)
+float root(float a, float b)
 {
-    float a, b;
-    printf("Введите подкоренной аргумент: ");
-    scanf("%f", &a);
-    printf("Введите показатель корня: ");
-    scanf("%f", &b);
-    printf("Результат = %f\n", pow(a, 1/b));
+    return pow(a, 1/b);
 }
 
-void e(float a, float b)
+float e(float a)
 {
-    float a, b;
-    printf("Введите аргумент: ");
-    scanf("%f", &a);
-    printf("Результат = %f\n", exp(a));
+    return exp(a);
 }
 
 int main()
@@ -146,7 +125,7 @@ int main()
             break;
 
         printf("\nВыберите действие: ");
-        printf("\n1-сложение\n2-вычитание\n3-умножение\n4-деление\n5-возведение в степень\n6-корень n-й степени\n7-экспонента\n8-завершить работу\n");
+        printf("\n1-сложение\n2-вычитание\n3-умножение\n4-деление\n5-возведение в степень\n6-корень n-й степени\n7-экспонента\nЛюбая другая кнопка-завершить работу\n");
         scanf("%d", &operation);
         shutdown = input(operation, shutdown);
     }
