@@ -13,7 +13,7 @@ bool input(int operation, bool shutdown)
         {
             case 1:
                 printf("Введите первый аргумент: ");
-            scanf("%f", &a);
+                scanf("%f", &a);
                 printf("Введите второй аргумент: ");
                 scanf("%f", &b);
                 result = sum(a, b);
@@ -21,7 +21,7 @@ bool input(int operation, bool shutdown)
             
             case 2:
                 printf("Введите первый аргумент: ");
-            scanf("%f", &a);
+                scanf("%f", &a);
                 printf("Введите второй аргумент: ");
                 scanf("%f", &b);
                 result = subtract(a, b);
