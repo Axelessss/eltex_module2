@@ -16,7 +16,7 @@ void add(Contact *contact, int id)
     bool shutdown = false;
 
     char buffer[N];
-    //char buffer2[N];
+    char buffer2[N];
 
     while (true)
     {
@@ -34,8 +34,8 @@ void add(Contact *contact, int id)
     while (true)
     {
         printf("Введите имя: ");
-        fgets(buffer, sizeof(buffer), stdin);
-        if (strlen(buffer)==0)
+        fgets(buffer2, sizeof(buffer), stdin);
+        if (strlen(buffer2)==0)
             printf("Поле не должно быть пустым!");
         else
         {
@@ -143,7 +143,7 @@ void change(Contact *contact)
     int count;
     bool shutdown = false;
     char buffer[N];
-
+    int count_phones, count_email, count_socials, count_messengers;
     while (true)
     {       
         if (shutdown)
@@ -202,7 +202,7 @@ void change(Contact *contact)
                 printf("1-удалить номер телефона 2-добавить номер телефона");
                 scanf("%d", &sub_operation);
 
-                int count_phones = contact->phone[0].count;
+                count_phones = contact->phone[0].count;
 
                 if (sub_operation==1)
                 {
@@ -248,7 +248,7 @@ void change(Contact *contact)
                 printf("1-удалить адрес 2-добавить адрес");
                 scanf("%d", &sub_operation);
 
-                int count_email = contact->email[0].count;
+                count_email = contact->email[0].count;
 
                 if (sub_operation==1)
                 {
@@ -286,7 +286,7 @@ void change(Contact *contact)
                 printf("1-удалить соцсеть 2-добавить соцсеть");
                 scanf("%d", &sub_operation);
 
-                int count_socials = contact->socials[0].count;
+                count_socials = contact->socials[0].count;
 
                 if (sub_operation==1)
                 {
@@ -324,7 +324,7 @@ void change(Contact *contact)
                 printf("1-удалить мессенджер 2-добавить мессенджер");
                 scanf("%d", &sub_operation);
 
-                int count_messengers = contact->messengers[0].count;
+                count_messengers = contact->messengers[0].count;
 
                 if (sub_operation==1)
                 {
