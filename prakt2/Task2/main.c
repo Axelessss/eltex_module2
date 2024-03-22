@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "header.h"
 
 
@@ -57,12 +58,6 @@ bool input(int operation, bool shutdown)
                 printf("Введите степень корня: ");
                 scanf("%f", &b);
                 result = root(a, b);
-                break;
-            
-            case 7:
-                printf("Введите аргумент: ");
-                scanf("%f", &a);
-                result = e(a);
                 break;
             
             default:
@@ -125,8 +120,11 @@ int main()
             break;
 
         printf("\nВыберите действие: ");
-        printf("\n1-сложение\n2-вычитание\n3-умножение\n4-деление\n5-возведение в степень\n6-корень n-й степени\n7-экспонента\nЛюбая другая кнопка-завершить работу\n");
+        printf("\n1-сложение\n2-вычитание\n3-умножение\n4-деление\n5-возведение в степень\n6-корень n-й степени\nЛюбая другая кнопка-завершить работу\n");
         scanf("%d", &operation);
         shutdown = input(operation, shutdown);
+
+        if(!shutdown)
+            sleep(5);
     }
 }
