@@ -1,4 +1,4 @@
-#pragma once
+//#pragma once
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -149,7 +149,7 @@ void change(Contact *contact)
         if (shutdown)
             break;
 
-        printf("Что заполнить:\n1-Фамилия\n2-Имя\n3-Отчество\n4-Место работы\n5-Должность\n6-Номер телефона\n7-E-mail\n8-Соцсети\n9-Мессенджеры\n");
+        printf("Что заполнить:\n1-Фамилия\n2-Имя\n3-Отчество\n4-Место работы и должность\n5-Номер телефона\n6-E-mail\n7-Соцсети\n8-Мессенджеры\n");
         printf("Любая другая кнопка - Выход\n");
         scanf("%d", &operation);
         
@@ -197,79 +197,164 @@ void change(Contact *contact)
                 printf("Введите  должность");
                 fgets(contact->job.title, sizeof(contact->job.title), stdin);
                 break;
-                
+
             case 5:
-                printf ("Введите количество номеров телефона: ");
-                scanf("%d", &count);
-                for(int i=0;i<count;i++)
-                {
-                    printf("Укажите тип телефона: ");      
-                    fgets(contact->phone[i].phone_type, sizeof(contact->phone[i].phone_type), stdin);
-
-                    printf("Укажите номер телефона: ");      
-                        fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
-                }
-                break;
-
-            case 6:
-                printf("1-удалить номер телефона 2-добавить номер телефона 3-удалить все телефоны");
+                printf("1-удалить номер телефона 2-добавить номер телефона");
                 scanf("%d", &sub_operation);
+
+                int count_phones = contact->phone[0].count;
 
                 if (sub_operation==1)
                 {
                     printf("Введите ID телефона для удаления: ");
                     scanf("%d", &ID);
+                    
+                    if (ID == 0)
+                        for (int i = 0; i < count_phones-1; i++)
+                            contact->phone[i] = contact->phone[i+1];   
+                    
+
+                    else if (ID == count_phones)
+                        printf("");
+                    
+
+                    else
+                        for(int i = ID; i < count_phones; i++)
+                            contact->phone[i] = contact->phone[i+1];
+                    
+                    for(int i = 0; i < count_phones-1; i++)
+                        contact->phone[i].count--;
                 }
 
                 else if (sub_operation==2)
                 {
-                    printf ("Введите количество номеров телефона: ");
-                    scanf("%d", &count);
-                for(int i=0;i<count;i++)
-                {
-                    printf("Укажите тип телефона: ");      
-                    fgets(contact->phone[i].phone_type, sizeof(contact->phone[i].phone_type), stdin);
+                    if(count_phones == 5)
+                        printf("Достигнуто максимальное количество номеров телефона!");
+                    else
+                    {    
+                        printf("Укажите тип телефона: ");      
+                        fgets(contact->phone[count_phones].phone_type, sizeof(contact->phone[count_phones].phone_type), stdin);
 
-                    printf("Укажите номер телефона: ");      
-                    fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
+                        printf("Укажите номер телефона: ");      
+                        fgets(contact->phone[count_phones].number, sizeof(contact->phone[count_phones].number), stdin);
+
+                        contact->phone[count_phones].count++;
+                        
+                    }
                 }
+                break;
+
+            case 6:
+                printf("1-удалить адрес 2-добавить адрес");
+                scanf("%d", &sub_operation);
+
+                int count_email = contact->email[0].count;
+
+                if (sub_operation==1)
+                {
+                    printf("Введите ID электронного адреса для удаления: ");
+                    scanf("%d", &ID);
+                    
+                    if (ID == 0)
+                        for (int i = 0; i < count_email-1; i++)
+                            contact->email[i] = contact->email[i+1];   
+                    
+
+                    else if (ID == count_email)
+                        printf("");
+
+                    else
+                        for(int i = ID; i < count_email; i++)
+                            contact->email[i] = contact->email[i+1];
+                    
+                    for(int i = 0; i < count_email-1; i++)
+                        contact->email[i].count--;
+                    
                 }
-                
+
+                else if (sub_operation==2)
+                {
+                    if(count_email == 5)
+                        printf("Достигнуто максимальное количество адресов!");
+                    else    
+                            printf("Укажите адрес: ");      
+                            fgets(contact->email[count_email].email, sizeof(contact->email[count_email].email), stdin);
+                }
                 break;
 
             case 7:
-                printf ("Введите количество e-mail адресов: ");
-                scanf("%d", &count);
-                for(int i=0;i<count;i++)
+                printf("1-соцсеть 2-добавить соцсеть");
+                scanf("%d", &sub_operation);
+
+                int count_socials = contact->socials[0].count;
+
+                if (sub_operation==1)
                 {
-                    printf("Введите электронный адрес: ");      
-                    fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
+                    printf("Введите ID соцсети для удаления: ");
+                    scanf("%d", &ID);
+                    
+                    if (ID == 0)
+                        for (int i = 0; i < count_phones-1; i++)
+                            contact->phone[i] = contact->phone[i+1];   
+                    
+
+                    else if (ID == count_phones)
+                        printf("");
+
+                    else
+                        for(int i = ID; i < count_phones; i++)
+                            contact->phone[i] = contact->phone[i+1];
+                    
+                }
+
+                else if (sub_operation==2)
+                {
+                    if(count_phones == 5)
+                        printf("Достигнуто максимальное количество номеров телефона!");
+                    else    
+                            printf("Укажите тип телефона: ");      
+                            fgets(contact->phone[count_phones].phone_type, sizeof(contact->phone[count_phones].phone_type), stdin);
+
+                            printf("Укажите номер телефона: ");      
+                            fgets(contact->phone[count_phones].number, sizeof(contact->phone[count_phones].number), stdin);
                 }
                 break;
 
             case 8:
-                printf ("Введите количество профилей в соцсетях: ");
-                scanf("%d", &count);
-                for(int i=0;i<count;i++)
-                {
-                    printf("Укажите название соцсети: ");      
-                    fgets(contact->phone[i].phone_type, sizeof(contact->phone[i].phone_type), stdin);
+                printf("1-удалить номер телефона 2-добавить номер телефона");
+                scanf("%d", &sub_operation);
 
-                    printf("Укажите ссылку на ваш профиль: ");      
-                    fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
+                int count_phones = contact->phone[0].count;
+
+                if (sub_operation==1)
+                {
+                    printf("Введите ID телефона для удаления: ");
+                    scanf("%d", &ID);
+                    
+                    if (ID == 0)
+                        for (int i = 0; i < count_phones-1; i++)
+                            contact->phone[i] = contact->phone[i+1];   
+                    
+
+                    else if (ID == count_phones)
+                        printf("");
+
+                    else
+                        for(int i = ID; i < count_phones; i++)
+                            contact->phone[i] = contact->phone[i+1];
+                    
                 }
-                break;
 
-            case 9:
-                printf ("Введите количество профилей в мессенджерах: ");
-                scanf("%d", &count);
-                for(int i=0;i<count;i++)
+                else if (sub_operation==2)
                 {
-                    printf("Укажите название мессенджера: ");      
-                    fgets(contact->phone[i].phone_type, sizeof(contact->phone[i].phone_type), stdin);
+                    if(count_phones == 5)
+                        printf("Достигнуто максимальное количество номеров телефона!");
+                    else    
+                            printf("Укажите тип телефона: ");      
+                            fgets(contact->phone[count_phones].phone_type, sizeof(contact->phone[count_phones].phone_type), stdin);
 
-                    printf("Укажите имя пользователя: ");      
-                    fgets(contact->phone[i].number, sizeof(contact->phone[i].number), stdin);
+                            printf("Укажите номер телефона: ");      
+                            fgets(contact->phone[count_phones].number, sizeof(contact->phone[count_phones].number), stdin);
                 }
                 break;
                 
@@ -281,10 +366,16 @@ void change(Contact *contact)
     }
 }
 
-void remove(Contact *contact, int index)
+void remove_contact(Contact contact[], int count, int ID)
 {
-
+    if (ID == 0)
+        for (int i = 0; i < count-1; i++)
+            contact[i] = contact[i+1];
+    else if (ID>0 && ID<count)
+        for (int i = ID; i < count-1; i++)
+            contact[i] = contact[i+1];
 }
+
 
 int main()
 {
@@ -320,11 +411,52 @@ int main()
                 printf("Введите ID контакта, который хотите удалить: ");
                 scanf("%d", &ID);
 
-                remove(&contacts[ID], ID);
+                remove_contact(&contacts[ID], count, ID);
                 break;
+
+            case 4:
+                for (int i = 0; i < count; i++)
+                {
+                    int phone_count = contacts[i].phone[0].count;
+                    int email_count = contacts[i].email[0].count;
+                    int social_count = contacts[i].socials[0].count;
+                    int messenger_count = contacts[i].messengers[0].count;
+
+                    printf("ID: %d", contacts[i].id);
+                    puts(contacts[i].fio.surname);
+                    puts(contacts[i].fio.name);
+                    puts(contacts[i].fio.partonymic);
+                    puts(contacts[i].job.corp);
+                    puts(contacts[i].job.title);
+
+                    for (int j = 0; j < phone_count; j++)
+                    {
+                        printf("ID: %d", contacts[i].phone[j].ID);
+                        puts(contacts[i].phone[j].phone_type);
+                        puts(contacts[i].phone[j].number);
+                    }
+
+                    for (int j = 0; j < email_count; j++)
+                    {
+                        printf("ID: %d", contacts[i].email[j].ID);
+                        puts(contacts[i].email[j].email);
+                    }
+
+                    for (int j = 0; j < social_count; j++)
+                    {
+                        printf("ID: %d", contacts[i].socials[j].ID);
+                        puts(contacts[i].socials[j].name);
+                        puts(contacts[i].socials[j].url);
+                    }
+
+                    for (int j = 0; j < messenger_count; j++)
+                    {
+                        printf("ID: %d", contacts[i].messengers[j].ID);
+                        puts(contacts[i].messengers[j].name);
+                        puts(contacts[i].messengers[j].nickname);
+                    }
+                    
+                }
         }
     }
-    add(&contacts[0]);
-    puts(contacts[0].fio.name);
-
 }

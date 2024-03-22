@@ -4,6 +4,7 @@
 
 typedef struct Phone
 {
+    int ID;
     int count;
     char phone_type[M];
     char number[M];

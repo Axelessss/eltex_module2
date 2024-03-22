@@ -4,6 +4,7 @@
 
 typedef struct Messenger
 {
+    int ID;
     int count;
     char name[M];
     char nickname[M];

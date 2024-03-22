@@ -4,6 +4,7 @@
 
 typedef struct Email
 {
+    int ID;
     int count;
     char email[N];
 }Email;

@@ -4,6 +4,7 @@
 
 typedef struct Social
 {
+    int ID;
     int count;
     char name[M];
     char url[U];

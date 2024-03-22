@@ -1,4 +1,4 @@
-#pragma once
+
 #include "fio.h"
 #include "email.h"
 #include "job.h"
@@ -17,6 +17,6 @@ typedef struct Contact
     Messenger messengers[5];
 }Contact;
 
-void add(Contact *contact);
+void add(Contact *contact, int id);
 void change(Contact *contact);
-void remove(Contact *contact);
+void remove_contact(Contact contact[], int count, int ID);
