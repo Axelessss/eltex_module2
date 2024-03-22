@@ -283,7 +283,7 @@ void change(Contact *contact)
                 break;
 
             case 7:
-                printf("1-соцсеть 2-добавить соцсеть");
+                printf("1-удалить соцсеть 2-добавить соцсеть");
                 scanf("%d", &sub_operation);
 
                 int count_socials = contact->socials[0].count;
@@ -294,67 +294,67 @@ void change(Contact *contact)
                     scanf("%d", &ID);
                     
                     if (ID == 0)
-                        for (int i = 0; i < count_phones-1; i++)
-                            contact->phone[i] = contact->phone[i+1];   
+                        for (int i = 0; i < count_socials-1; i++)
+                            contact->socials[i] = contact->socials[i+1];   
                     
 
-                    else if (ID == count_phones)
+                    else if (ID == count_socials)
                         printf("");
 
                     else
-                        for(int i = ID; i < count_phones; i++)
-                            contact->phone[i] = contact->phone[i+1];
+                        for(int i = ID; i < count_socials; i++)
+                            contact->socials[i] = contact->socials[i+1];
                     
                 }
 
                 else if (sub_operation==2)
                 {
-                    if(count_phones == 5)
-                        printf("Достигнуто максимальное количество номеров телефона!");
+                    if(count_socials == 5)
+                        printf("Достигнуто максимальное количество соцсетей!");
                     else    
                             printf("Укажите тип телефона: ");      
-                            fgets(contact->phone[count_phones].phone_type, sizeof(contact->phone[count_phones].phone_type), stdin);
+                            fgets(contact->socials[count_socials].name, sizeof(contact->socials[count_socials].name), stdin);
 
                             printf("Укажите номер телефона: ");      
-                            fgets(contact->phone[count_phones].number, sizeof(contact->phone[count_phones].number), stdin);
+                            fgets(contact->socials[count_socials].url, sizeof(contact->socials[count_socials].url), stdin);
                 }
                 break;
 
             case 8:
-                printf("1-удалить номер телефона 2-добавить номер телефона");
+                printf("1-удалить мессенджер 2-добавить мессенджер");
                 scanf("%d", &sub_operation);
 
-                int count_phones = contact->phone[0].count;
+                int count_messengers = contact->messengers[0].count;
 
                 if (sub_operation==1)
                 {
-                    printf("Введите ID телефона для удаления: ");
+                    printf("Введите ID мессенджера для удаления: ");
                     scanf("%d", &ID);
                     
                     if (ID == 0)
-                        for (int i = 0; i < count_phones-1; i++)
-                            contact->phone[i] = contact->phone[i+1];   
+                        for (int i = 0; i < count_messengers-1; i++)
+                            contact->messengers[i] = contact->messengers[i+1];   
                     
 
-                    else if (ID == count_phones)
+                    else if (ID == count_messengers)
                         printf("");
 
                     else
-                        for(int i = ID; i < count_phones; i++)
-                            contact->phone[i] = contact->phone[i+1];
+                        for(int i = ID; i < count_messengers; i++)
+                            contact->messengers[i] = contact->messengers[i+1];
                     
                 }
 
                 else if (sub_operation==2)
                 {
-                    if(count_phones == 5)
+                    if(count_messengers == 5)
                         printf("Достигнуто максимальное количество номеров телефона!");
                     else    
                             printf("Укажите тип телефона: ");      
-                            fgets(contact->phone[count_phones].phone_type, sizeof(contact->phone[count_phones].phone_type), stdin);
+                            fgets(contact->messengers[count_messengers].name, sizeof(contact->messengers[count_messengers].name), stdin);
 
                             printf("Укажите номер телефона: ");      
-                            fgets(contact->phone[count_phones].number, sizeof(contact->phone[count_phones].number), stdin);
+                            fgets(contact->messengers[count_messengers].nickname, sizeof(contact->messengers[count_messengers].nickname), stdin);
                 }
                 break;
                 
@@ -390,7 +390,7 @@ int main()
             break;
 
         printf("Добро пожаловать в список контактов! Выберите желаемое действие:\n1-добавить контакт\n2-редактировать контакт\n3-удалить контакт\n4-просмотр списка контактов\n");
-        printf("Для закрытия программы нажмите любую другую кнопку\n");
+        printf("Для закрытия программы нажмите любую другую кнопку");
         scanf("%d", &action);
 
         switch(action)
