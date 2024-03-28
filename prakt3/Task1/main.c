@@ -108,42 +108,23 @@ void letter_to_binary(char* letters, char (*binary)[N])
     int bin_c = 0;
     for(int i = 2; i < strlen(letters); i+=3)
     {
-
-        if(letters[i-2]=='-')
-        {
-            if(letters[i-1]=='-')
-            {
-                if(letters[i]=='-')
-                    strcpy(binary[bin_c], "000");
-                else if(letters[i]=='x')
-                    strcpy(binary[bin_c], "001");
-            }
-            else if(letters[i]=='w')
-            {
-                if(letters[i]=='-')
-                    strcpy(binary[bin_c], "010");
-                else if(letters[i]=='x')
-                    strcpy(binary[bin_c], "011");
-            }
-        }
-
-        else if(letters[i-2]=='r')
-        {
-            if(letters[i-1]=='-')
-            {
-                if(letters[i]=='-')
-                    strcpy(binary[bin_c], "100");
-                else if(letters[i]=='x')
-                    strcpy(binary[bin_c], "101");
-            }
-            else if(letters[i]=='w')
-            {
-                if(letters[i]=='-')
-                    strcpy(binary[bin_c], "110");
-                else if(letters[i]=='x')
-                    strcpy(binary[bin_c], "111");
-            }
-        }
+        if(letters[i-2] == '-' && letters[i-1] == '-' && letters[i] == '-')
+            strcpy(binary[bin_c], "000");
+        else if(letters[i-2] == '-' && letters[i-1] == '-' && letters[i] == 'x')
+            strcpy(binary[bin_c], "001");
+        else if(letters[i-2] == '-' && letters[i-1] == 'w' && letters[i] == '-')
+            strcpy(binary[bin_c], "010");
+        else if(letters[i-2] == '-' && letters[i-1] == 'w' && letters[i] == 'x')
+            strcpy(binary[bin_c], "011");
+        else if(letters[i-2] == 'r' && letters[i-1] == '-' && letters[i] == '-')
+            strcpy(binary[bin_c], "100");
+        else if(letters[i-2] == 'r' && letters[i-1] == '-' && letters[i] == 'x')
+            strcpy(binary[bin_c], "101");
+        else if(letters[i-2] == 'r' && letters[i-1] == 'w' && letters[i] == '-')
+            strcpy(binary[bin_c], "110");
+        else if(letters[i-2] == 'r' && letters[i-1] == 'w' && letters[i] == 'x')
+            strcpy(binary[bin_c], "111");
+        
         bin_c++;
     }
 }
@@ -153,7 +134,8 @@ int main(int argc, char* argv[])
 
     struct stat st;
     char permissions[3][N];
-    char binary[3][N];
+    char binary[N][N];
+    char perm_in[N];
     int action;
     int stmode;
     //char permissions[3][N];
@@ -187,7 +169,8 @@ int main(int argc, char* argv[])
                         return 1;
                     }
                         
-                    //letter_to_binary(argv[1], binary);
+                    letter_to_binary(argv[1], binary);
+                    //printf("%s\n", argv[1]);
                 }
 
                 printf("\nБинарное представление: ");
@@ -233,12 +216,28 @@ int main(int argc, char* argv[])
                 return 0;
         }
 
-        /*printf("Желаете изменить права доступа? 1-да 0-нет");
+        printf("\nЖелаете изменить права доступа? 1-да 0-нет");
         scanf("%d", &action);
 
         if(action == 1)
         {
-            
-        }*/
+            printf("Введите права доступа(цифрами или буквами)");
+            scanf("%s", &perm_in);
+            if(all_digits(perm_in))
+                {
+                    stmode = atoi(perm_in);
+                    oct_to_binary(stmode, binary, permissions);
+
+                    printf("\nБуквенное представление: ");
+                    for (int i = 0; i < 3; i++)
+                        printf("%s", permissions[i]);
+
+                printf("\nЦифровое представление: %d", stmode);
+
+                printf("\nБинарное представление: ");
+                    for (int i = 0; i < 3; i++)
+                        printf("%s", binary[i]);
+                }
+        }   
     }
 }
