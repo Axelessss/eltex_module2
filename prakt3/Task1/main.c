@@ -10,14 +10,6 @@
 
 #define N 20
 
-
-/*void access_permissions(char *permissions, struct stat *st)
-{
-    char *path;
-    printf("Введите путь до файла: ");
-    scanf("%s", &path);
-}*/
-
 void oct_to_binary(int num, char (*binary)[N], char (*letters)[N])
 {
     int number;
@@ -136,9 +128,12 @@ int main(int argc, char* argv[])
     char permissions[3][N];
     char binary[N][N];
     char perm_in[N];
+    int oct_perm[N];
+    char perm[N];
     int action;
     int stmode;
-    //char permissions[3][N];
+    char index;
+    int counter = 0;
 
     while(true)
     {
@@ -170,7 +165,6 @@ int main(int argc, char* argv[])
                     }
                         
                     letter_to_binary(argv[1], binary);
-                    //printf("%s\n", argv[1]);
                 }
 
                 printf("\nБинарное представление: ");
@@ -192,7 +186,6 @@ int main(int argc, char* argv[])
                     perror("stat");
                     return 1;
                 }
-                //printf("Permissions: %o\n", st.st_mode);
                 stmode = st.st_mode;
                 stmode = decimal_to_oct(stmode);
                 
@@ -209,9 +202,7 @@ int main(int argc, char* argv[])
                     printf("%s", binary[i]);
 
                 break;
-                
-                
-            
+               
             default:
                 return 0;
         }
@@ -224,20 +215,54 @@ int main(int argc, char* argv[])
             printf("Введите права доступа(цифрами или буквами)");
             scanf("%s", &perm_in);
             if(all_digits(perm_in))
-                {
-                    stmode = atoi(perm_in);
-                    oct_to_binary(stmode, binary, permissions);
+            {
+                stmode = atoi(perm_in);
+                oct_to_binary(stmode, binary, permissions);
 
-                    printf("\nБуквенное представление: ");
-                    for (int i = 0; i < 3; i++)
-                        printf("%s", permissions[i]);
+                printf("\nБуквенное представление: ");
+                for (int i = 0; i < 3; i++)
+                    printf("%s", permissions[i]);
 
                 printf("\nЦифровое представление: %d", stmode);
 
                 printf("\nБинарное представление: ");
-                    for (int i = 0; i < 3; i++)
-                        printf("%s", binary[i]);
-                }
+                for (int i = 0; i < 3; i++)
+                    printf("%s", binary[i]);
+            }
+
+            else
+            {
+
+                oct_perm[0]=stmode/100; oct_perm[1]=(stmode%100)/10; oct_perm[2]=stmode%10;
+
+                for (int i = 0; i < strlen(perm_in); i++)
+                    if (perm_in[i]=='='||perm_in[i]=='+'||perm_in[i]=='_')
+                        index = i;
+                
+
+                for (int i = 0; i < index; i++)
+                    if(perm_in[i] == 'a')
+                        for(int j = 0; j < 3; j++)
+                            oct_perm[j] = 0;
+                    
+                    else if(perm_in[i] == 'u')
+                        oct_perm[0] = 0;
+                    
+                    else if(perm_in[i] == 'g')
+                        oct_perm[1] = 0;
+
+                    else if(perm_in[i] == 'o')
+                        oct_perm[2] = 0;
+                    
+                for(int i = index+1; i<strlen(perm_in); i++)
+                {
+                    perm[counter] = perm_in[i];
+                    counter++;
+                }                    
+
+
+                
+            }
         }   
     }
 }

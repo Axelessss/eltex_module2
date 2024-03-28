@@ -371,7 +371,7 @@ void remove_contact(Contact *contact)
     contact->messengers[0].count = 0;
 }
 
-int elem_in_arr(int deleted[], int count)
+int elem_in_arr(int *deleted, int count)
 {
     bool flag = false;
     int elem;
@@ -381,6 +381,7 @@ int elem_in_arr(int deleted[], int count)
         {
             flag = true;
             elem = deleted[i];
+            deleted[i] = -1;
             break;
         }
     if (flag)
@@ -431,7 +432,7 @@ int main()
                 scanf("%d", &ID);
 
                 remove_contact(&contacts[ID]);
-                count--;
+                
 
                 for(int i = 0; i < 21; i++)
                     if(deleted_list[i]==-1)
@@ -450,7 +451,7 @@ int main()
                     int social_count = contacts[i].socials[0].count;
                     int messenger_count = contacts[i].messengers[0].count;
 
-                    printf("ID: %d\n", contacts[i].id);
+                    printf("\nID: %d\n", contacts[i].id);
                     printf("%s\n", contacts[i].fio.surname);
                     printf("%s\n", contacts[i].fio.name);
                     printf("%s\n", contacts[i].fio.partonymic);

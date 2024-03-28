@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#define N 10
+#define N 2000
 
 void gen_dest(int (*Dst)[N], int count)
 {
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
     
     Net_Cmp(net_src, net_dest, pack, count);
 
-    printf("Пакеты данной сети: %d, %d %% от всех пакетов\n", pack[0], pack[0]/count*100);
-    printf("Пакеты других сетей: %d, %d %% от всех пакетов\n", pack[1], pack[1]/count*100);
+    printf("Пакеты данной сети: %d, %d %% от всех пакетов\n", pack[0], (pack[0]/count)*100);
+    printf("Пакеты других сетей: %d, %d %% от всех пакетов\n", pack[1], (pack[1]/count)*100);
     return 0;
 }

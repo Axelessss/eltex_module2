@@ -18,6 +18,6 @@ typedef struct Contact
     Messenger messengers[5];
 }Contact;
 
-/*void add(Contact *contact, int id);
+void add(Contact *contact, int id);
 void change(Contact *contact);
-void remove_contact(Contact contact[], int count, int ID);*/
+void remove_contact(Contact *contact);
