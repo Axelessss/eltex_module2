@@ -1,30 +1,137 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
-#include "contact.h"
+#include "list.h"
 
 #define N 50
 #define M 20
 #define U 100
 
-struct Item 
-{
-    int value;
-    struct Item* next;
-    struct Item* prev;
-};
 
-struct Item* InsertToStart(int newValue, struct Item* head) 
+
+List* InsertValue(List* head) 
 {
-    struct Item* newItem = malloc(sizeof(struct Item));
-    newItem->value = newValue;
-    newItem->next = head;
-    return newItem;
+    Contact contact;
+    List* newItem;
+    List* tmp = head;
+    newItem = malloc(sizeof(List));
+    //newItem->value = val;
+
+    // Вставка элемента в пустой список
+    if(NULL == head) 
+    {
+        newItem->prev = newItem;
+        newItem->next = newItem;
+        head = newItem;
+        return head;
+    }
+
+    // Вставка элемента в начало или середину списка
+    do 
+    {
+        if(newItem->contact->id <= tmp->contact->id) 
+        {
+            newItem->next = tmp;
+            newItem->prev = tmp->prev;
+            tmp->prev->next = newItem;
+            tmp->prev = newItem;
+
+            if(tmp == head) 
+                head = newItem;
+
+            return head;
+        }
+        tmp = tmp->next;
+
+    } while(tmp != head);
+
+    // Вставка элемента в конец списка
+    newItem->next = tmp;
+    newItem->prev = tmp->prev;
+    tmp->prev->next = newItem;
+    tmp->prev = newItem;
+    return head;
+}
+
+List* DeleteValue(int val, List* head) 
+{
+    List *tmp = head;
+    // Если пытаемся удалить элемент из пустого списка
+    if (NULL == head) 
+    {
+        printf("List empty!\n");
+        return head;
+    }
+    // Поиск и удаление элемента
+    do 
+    {
+        if (val == tmp->contact->id) 
+        {
+            // Если удаляется единственный элемент списка
+            if(tmp->next == tmp->prev) 
+            {
+                free(tmp);
+                return NULL;
+            }
+            // Перестраиваем связи
+            tmp->next->prev = tmp->prev;
+            tmp->prev->next = tmp->next;
+            // Если элемент удаляется из начала списка, изменяем head
+            if(tmp == head) 
+                head = head->next;
+            // Удаляем найденный элемент
+            free(tmp);
+            return head;
+        }  
+        tmp = tmp->next;
+    } while (tmp != head);
+
+    // Если элемент не найден, выводим сообщение
+    printf("List does not contain %d!\n", val);
+    return head;
+}
+
+List* DeleteList(List* head) 
+{
+    List* tmp = head;
+    List* itemForRemove;
+    if (NULL == head) 
+    {
+        return NULL;
+    }   
+
+    do 
+    {
+        itemForRemove = tmp;
+        tmp = tmp->next;
+        free(itemForRemove);
+    } while (tmp != head);
+
+    return NULL;
+}
+
+void PrintList(List* head) 
+{
+    List* tmp = head;
+    if (NULL == head) 
+    {
+        printf("List empty!\n");
+        return;
+    }
+
+    do 
+    {
+        printf ("%d ", tmp->contact->id);
+        tmp = tmp->next;
+    } while (tmp != head);
+
+printf("\n");
 }
 
 void add(Contact *contact, int id)
 {
-    char con;
+    int con;
     int operation;
     int count;
 
@@ -36,7 +143,7 @@ void add(Contact *contact, int id)
     while (true)
     {
         printf("Введите фамилию: ");
-        scanf("%s", &buffer);
+        scanf("%s", buffer);
 
         if (strlen(buffer)==0)
         {
@@ -48,7 +155,7 @@ void add(Contact *contact, int id)
             strcpy(contact->fio.surname, buffer);
         
         printf("Введите имя: ");
-        scanf("%s", &buffer2);
+        scanf("%s", buffer2);
         if (strlen(buffer2)==0)
             printf("Поле не должно быть пустым!");
         else
@@ -70,15 +177,15 @@ void add(Contact *contact, int id)
             {
                 case 1:
                     printf("Введите отчество: ");
-                    scanf("%s", &contact->fio.partonymic);
+                    scanf("%s", contact->fio.partonymic);
                     break;
                 
                 case 2:
                     printf("Введите  место работы: ");
-                    scanf("%s", &contact->job.corp);
+                    scanf("%s", contact->job.corp);
 
                     printf("Введите  должность: ");
-                    scanf("%s", &contact->job.title);
+                    scanf("%s", contact->job.title);
                     break;
                 
                 case 3:
@@ -90,10 +197,10 @@ void add(Contact *contact, int id)
                         contact->phone[i].ID = i;
 
                         printf("Укажите тип телефона: ");      
-                        scanf("%s", &contact->phone[i].phone_type);
+                        scanf("%s", contact->phone[i].phone_type);
 
                         printf("Укажите номер телефона: ");      
-                        scanf("%s", &contact->phone[i].number);
+                        scanf("%s", contact->phone[i].number);
                     }
                     break;
 
@@ -106,7 +213,7 @@ void add(Contact *contact, int id)
                         contact->email[i].ID = i;
 
                         printf("Введите электронный адрес: ");      
-                        scanf("%s", &contact->email[i].email);
+                        scanf("%s", contact->email[i].email);
                     }
                     break;
 
@@ -119,10 +226,10 @@ void add(Contact *contact, int id)
                         contact->socials[i].ID = i;
 
                         printf("Укажите название соцсети: ");      
-                        scanf("%s", &contact->socials[i].name);
+                        scanf("%s", contact->socials[i].name);
 
                         printf("Укажите ссылку на ваш профиль: ");      
-                        scanf("%s", &contact->socials[i].url);
+                        scanf("%s", contact->socials[i].url);
                     }
                     break;
 
@@ -135,10 +242,10 @@ void add(Contact *contact, int id)
                         contact->messengers[i].ID = i;
 
                         printf("Укажите название мессенджера: ");      
-                        scanf("%s", &contact->messengers[i].name);
+                        scanf("%s", contact->messengers[i].name);
 
                         printf("Укажите имя пользователя: ");      
-                        scanf("%s", &contact->messengers[i].nickname);
+                        scanf("%s", contact->messengers[i].nickname);
                     }
                     break;
                 
@@ -169,7 +276,7 @@ void change(Contact *contact)
                 while (true)
                 {
                     printf("Введите фамилию: ");
-                    scanf("%s", &buffer);
+                    scanf("%s", buffer);
                     if (strlen(buffer)==0)
                         printf("Поле не должно быть пустым!");
                     else
@@ -184,7 +291,7 @@ void change(Contact *contact)
                 while (true)
                 {
                     printf("Введите имя: ");
-                    scanf("%s", &buffer);
+                    scanf("%s", buffer);
                     if (strlen(buffer)==0)
                         printf("Поле не должно быть пустым!");
                     else
@@ -197,15 +304,15 @@ void change(Contact *contact)
 
             case 3:
                 printf("Введите отчество: ");
-                scanf("%s", &contact->fio.partonymic);
+                scanf("%s", contact->fio.partonymic);
                 break;
                 
             case 4:
                 printf("Введите  место работы: ");
-                scanf("%s", &contact->job.corp);
+                scanf("%s", contact->job.corp);
 
                 printf("Введите  должность: ");
-                scanf("%s", &contact->job.title);
+                scanf("%s", contact->job.title);
                 break;
 
             case 5:
@@ -225,10 +332,10 @@ void change(Contact *contact)
                     else
                     {
                         printf("Укажите тип телефона: ");      
-                        scanf("%s", &contact->phone[ID].phone_type);
+                        scanf("%s", contact->phone[ID].phone_type);
 
                         printf("Укажите номер телефона: ");      
-                        scanf("%s", &contact->phone[ID].number);
+                        scanf("%s", contact->phone[ID].number);
                     }
                 }
 
@@ -239,10 +346,10 @@ void change(Contact *contact)
                     else
                     {    
                         printf("Укажите тип телефона: ");      
-                        scanf("%s", &contact->phone[count_phones].phone_type);
+                        scanf("%s", contact->phone[count_phones].phone_type);
 
                         printf("Укажите номер телефона: ");      
-                        scanf("%s", &contact->phone[count_phones].number);
+                        scanf("%s", contact->phone[count_phones].number);
 
                         for(int i = 0; i <= count_phones; i++)
                             contact->phone[i].count++;
@@ -268,7 +375,7 @@ void change(Contact *contact)
                     else
                     {
                         printf("Укажите номер телефона: ");      
-                        scanf("%s", &contact->email[ID].email);
+                        scanf("%s", contact->email[ID].email);
                     }
                 }
 
@@ -278,7 +385,7 @@ void change(Contact *contact)
                         printf("Достигнуто максимальное количество адресов!");
                     else    
                             printf("Укажите адрес: ");      
-                            scanf("%s", &contact->email[count_email].email);
+                            scanf("%s", contact->email[count_email].email);
 
                             for(int i = 0; i <= count_email; i++)
                                 contact->email[i].count++;
@@ -302,10 +409,10 @@ void change(Contact *contact)
                     else
                     {
                         printf("Укажите соцсеть: ");      
-                        scanf("%s", &contact->socials[ID].name);
+                        scanf("%s", contact->socials[ID].name);
 
                         printf("Укажите ссылку на страницу: ");      
-                        scanf("%s", &contact->socials[ID].url);
+                        scanf("%s", contact->socials[ID].url);
                     }
                     
                 }
@@ -316,10 +423,10 @@ void change(Contact *contact)
                         printf("Достигнуто максимальное количество соцсетей!");
                     else    
                             printf("Укажите название соцсети: ");      
-                            scanf("%s", &contact->socials[count_socials].name);
+                            scanf("%s", contact->socials[count_socials].name);
 
                             printf("Укажите ссылку на страницу: ");      
-                            scanf("%s", &contact->socials[count_socials].url);
+                            scanf("%s", contact->socials[count_socials].url);
 
                             for(int i = 0; i <= count_socials; i++)
                                 contact->socials[i].count++;
@@ -343,10 +450,10 @@ void change(Contact *contact)
                     else
                     {
                         printf("Укажите мессенджер: ");      
-                        scanf("%s", &contact->messengers[ID].name);
+                        scanf("%s", contact->messengers[ID].name);
 
                         printf("Укажите ник: ");      
-                        scanf("%s", &contact->messengers[ID].nickname);
+                        scanf("%s", contact->messengers[ID].nickname);
                     }
                     
                 }
@@ -357,10 +464,10 @@ void change(Contact *contact)
                         printf("Достигнуто максимальное количество номеров телефона!");
                     else    
                             printf("Укажите мессенджер: ");      
-                            scanf("%s", &contact->messengers[count_messengers].name);
+                            scanf("%s", contact->messengers[count_messengers].name);
 
                             printf("Укажите ник: ");      
-                            scanf("%s", &contact->messengers[count_messengers].nickname);
+                            scanf("%s", contact->messengers[count_messengers].nickname);
 
                             for(int i = 0; i <= count_messengers; i++)
                                 contact->messengers[i].count++;
@@ -402,6 +509,51 @@ int elem_in_arr(int deleted[], int count)
         return elem;
     else
         return count;
+}
+
+void Print_Contact(Contact *contacts, int count)
+{
+    for (int i = 0; i < count; i++)
+    {
+        int phone_count = contacts[i].phone[0].count;
+        int email_count = contacts[i].email[0].count;
+        int social_count = contacts[i].socials[0].count;
+        int messenger_count = contacts[i].messengers[0].count;
+
+        printf("ID: %d\n", contacts[i].id);
+        printf("%s\n", contacts[i].fio.surname);
+        printf("%s\n", contacts[i].fio.name);
+        printf("%s\n", contacts[i].fio.partonymic);
+        printf("%s\n", contacts[i].job.corp);
+        printf("%s\n", contacts[i].job.title);
+
+        for (int j = 0; j < phone_count; j++)
+        {
+            printf("Phone ID: %d\n", contacts[i].phone[j].ID);
+            printf("%s\n", contacts[i].phone[j].phone_type);
+            printf("%s\n", contacts[i].phone[j].number);
+        }
+
+        for (int j = 0; j < email_count; j++)
+        {
+            printf("Email ID: %d\n", contacts[i].email[j].ID);
+            printf("%s\n", contacts[i].email[j].email);
+        }
+
+        for (int j = 0; j < social_count; j++)
+        {
+            printf("Social ID: %d\n", contacts[i].socials[j].ID);
+            printf("%s\n", contacts[i].socials[j].name);
+            printf("%s\n", contacts[i].socials[j].url);
+        }
+
+        for (int j = 0; j < messenger_count; j++)
+        {
+            printf("Messenger ID: %d\n", contacts[i].messengers[j].ID);
+            printf("%s\n", contacts[i].messengers[j].name);
+            printf("%s\n", contacts[i].messengers[j].nickname);
+        }  
+    }
 }
 
 int main()
@@ -458,48 +610,7 @@ int main()
                 break;
 
             case 4:
-                for (int i = 0; i < count; i++)
-                {
-                    int phone_count = contacts[i].phone[0].count;
-                    int email_count = contacts[i].email[0].count;
-                    int social_count = contacts[i].socials[0].count;
-                    int messenger_count = contacts[i].messengers[0].count;
-
-                    printf("ID: %d\n", contacts[i].id);
-                    printf("%s\n", contacts[i].fio.surname);
-                    printf("%s\n", contacts[i].fio.name);
-                    printf("%s\n", contacts[i].fio.partonymic);
-                    printf("%s\n", contacts[i].job.corp);
-                    printf("%s\n", contacts[i].job.title);
-
-                    for (int j = 0; j < phone_count; j++)
-                    {
-                        printf("Phone ID: %d\n", contacts[i].phone[j].ID);
-                        printf("%s\n", contacts[i].phone[j].phone_type);
-                        printf("%s\n", contacts[i].phone[j].number);
-                    }
-
-                    for (int j = 0; j < email_count; j++)
-                    {
-                        printf("Email ID: %d\n", contacts[i].email[j].ID);
-                        printf("%s\n", contacts[i].email[j].email);
-                    }
-
-                    for (int j = 0; j < social_count; j++)
-                    {
-                        printf("Social ID: %d\n", contacts[i].socials[j].ID);
-                        printf("%s\n", contacts[i].socials[j].name);
-                        printf("%s\n", contacts[i].socials[j].url);
-                    }
-
-                    for (int j = 0; j < messenger_count; j++)
-                    {
-                        printf("Messenger ID: %d\n", contacts[i].messengers[j].ID);
-                        printf("%s\n", contacts[i].messengers[j].name);
-                        printf("%s\n", contacts[i].messengers[j].nickname);
-                    }
-                    
-                }
+                Print_Contact(contacts, count);
                 break;
             
             default:

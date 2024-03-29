@@ -14,7 +14,6 @@ bool input(int operation, bool shutdown)
     switch(operation)
         {
             case 1:
-                
                 result = sum;
                 break;
             

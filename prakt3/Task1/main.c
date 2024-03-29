@@ -1,12 +1,9 @@
-#include <locale.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-//#include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
 #define N 20
 
@@ -186,7 +183,6 @@ void get_perm_by_letters(char *perm_in, char *perm, char *perm_bin, int index)
         perm[counter] = perm_in[i];
         counter++;
     }                    
-    //perm[counter]='\0';
 
     switch(counter)
     {
@@ -213,10 +209,10 @@ void get_perm_by_letters(char *perm_in, char *perm, char *perm_bin, int index)
                 strcpy(perm_bin, "011");
                             
             else if(strstr(perm, "rx"))
-                    strcpy(perm_bin, "101");
+                strcpy(perm_bin, "101");
                             
             else if(strstr(perm, "rw"))
-                                strcpy(perm_bin, "110");
+                strcpy(perm_bin, "110");
             else
             {
                 printf("Ошибка ввода2");
@@ -278,12 +274,6 @@ void change_perms_by_letters(char *perm_in, char (*binary)[N])
         {
             index = i;
             operation = perm_in[i];
-
-            /*if (i == 0)//||index == 0)//||perm_in[i+1]!='r'||perm_in[i+1]!='w'||perm_in[i+1]!='x')
-            {
-                printf("Bad arguments_oper");
-                exit(0);
-            }*/
             break;
         }
     }
@@ -323,6 +313,7 @@ void change_perms_by_letters(char *perm_in, char (*binary)[N])
             for(int i = 0; i < 3; i++)
                 if(perm_to_change[i] == 1)
                     strcpy(binary[i], perm_bin);
+            break;
         
         default:
             printf("Bad arguments_change");
@@ -330,7 +321,7 @@ void change_perms_by_letters(char *perm_in, char (*binary)[N])
     }
 }
 
-void print_perms(char (*permissions)[N], int *stmode, char (*binary)[N])
+void print_perms(char (*permissions)[N], int *oct, char (*binary)[N])
 {
     printf("\nБуквенное представление: ");
     for (int i = 0; i < 3; i++)
@@ -338,7 +329,7 @@ void print_perms(char (*permissions)[N], int *stmode, char (*binary)[N])
 
     printf("\nЦифровое представление: ");
     for (int i = 0; i < 3; i++)
-        printf("%d", stmode[i]);
+        printf("%d", oct[i]);
 
     printf("\nБинарное представление: ");
     for (int i = 0; i < 3; i++)
@@ -386,7 +377,7 @@ int main(int argc, char* argv[])
                         
                 letter_to_binary(argv[1], binary);
             }
-            binary_to_perm(binary, &stmode, permissions);
+            binary_to_perm(binary, oct_perms, permissions);
             printf("\nБинарное представление: ");
 
             for (int i = 0; i < 3; i++)
@@ -429,7 +420,7 @@ int main(int argc, char* argv[])
             case 1:
         
                 printf("Введите права доступа(цифрами или буквами)");
-                scanf("%s", &perm_in);
+                scanf("%s", perm_in);
 
                 if(all_digits(perm_in))
                 {
@@ -446,14 +437,13 @@ int main(int argc, char* argv[])
 
                     change_perms_by_letters(perm_in, binary);
                 
-                    binary_to_perm(binary, &stmode, permissions);
+                    binary_to_perm(binary, oct_perms, permissions);
 
-                    print_perms(permissions, &stmode, binary);
+                    print_perms(permissions, oct_perms, binary);
                 }
                 break;
 
             case 2:
-                binary_to_perm(binary, &stmode, permissions);
                 print_perms(permissions, oct_perms, binary);
                 break;
             
