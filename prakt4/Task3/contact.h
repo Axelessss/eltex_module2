@@ -18,4 +18,6 @@ typedef struct Contact
 
 void add(Contact *contact);
 void change(Contact *contact);
-void print_contact(Contact *contacts);
+void print_contact(Contact *contact);
+void copy_contact(Contact *contact1, Contact *contact2);
+int cmp_contacts(Contact *contact1, Contact *contact2);

@@ -2,16 +2,17 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list.h"
+#include "tree.h"
 #define N 50
 
 int main()
 {
-    List *head = NULL;
+    Contact contact;
+    btree *root = NULL;
     int action;
     char surname[N];
     char name[N];
-    printf("%d", strcmp("Овчинников", "Иванов"));
+    //printf("%d", strcmp("Овчинников", "Иванов"));
     while (true)
     {
         printf("\nДобро пожаловать в список контактов! Выберите желаемое действие:\n1-добавить контакт\n2-редактировать контакт\n3-удалить контакт\n4-очистить список\n5-просмотр контакта\n6-просмотр списка контактов\n");
@@ -21,7 +22,8 @@ int main()
         switch(action)
         {
             case 1:
-                head = InsertContact(head);
+                add(&contact);
+                Ins_Btree(&contact, &root);
                 break;
 
             case 2:
@@ -31,7 +33,7 @@ int main()
                 printf("Введите имя контакта, который хотите отредактировать: ");
                 scanf("%s", name);
 
-                head = ChangeContact(surname, name, head);
+                //head = ChangeContact(surname, name, head);
                 break;
             
             case 3:
@@ -41,12 +43,12 @@ int main()
                 printf("Введите имя контакта, который хотите удалить: ");
                 scanf("%s", name);
 
-                head = DeleteContact(surname, name, head);
+                //head = DeleteContact(surname, name, head);
 
                 break;
 
             case 4:
-                head = DeleteList(head);
+                //head = DeleteList(head);
                 break;
             
             case 5:
@@ -56,11 +58,12 @@ int main()
                 printf("Введите имя контакта, который хотите просмотреть: ");
                 scanf("%s", name);
 
-                PrintContact(surname, name, head);
+                //PrintContact(surname, name, head);
                 break;
 
             case 6:
-                PrintList(head);
+                Print_Btree(root);
+                printf("\n");
                 break;
 
             default:
