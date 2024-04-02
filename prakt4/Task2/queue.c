@@ -38,24 +38,92 @@ Queue* enqueue( Queue *head, int data, unsigned priority)
     }
     
     head->rear = head->rear->next = buf;
-    
+    head->front->rear = head->rear;
+    head->rear->front = head->front;
+    //head=head->front;
+    //head = head->rear;
     return head;
 }
 
 int pop(Queue *head)
 {
+    Queue *tmp;
+    int data;
+
+    if(head == NULL)
+    {
+        printf("Queue empty!");
+        return 0;
+    }
+        //printf("%p: %p", head, head->front);
+        tmp = head->front;
+        data = tmp->data;
+        head->front = head->front->next;
+        head = head->rear;
+        free(tmp);
+    return data;
+}
+
+int pop_priority(Queue *head, unsigned priority)
+{
+    Queue *tmp;
+    Queue *buf;
+    int data;
+
     if(head == NULL)
     {
         printf("Queue empty!");
         return 0;
     }
 
-    Queue *tmp = head->front;
-    int data = tmp->data;
-    head->front = head->front->next;
-    free(tmp);
+    tmp = head->front;
 
-    return data;
+    if(tmp->priority == priority)
+    {
+        return pop(head);
+        //head->front = head->front->next;
+    }
+    while(tmp->next != NULL)
+    {
+        if(tmp->priority == priority)
+        {
+            data = tmp->next->data;
+            buf = tmp;
+            tmp = tmp->next;
+            //data = buf->data;
+            free(buf);
+            return data;
+        }
+        tmp = tmp->next;
+    }
+
+    if(tmp->next == NULL)
+    {
+        printf("Wrong priority");
+        return 0;
+    }
+    return 0;
+}
+
+int pop_under_priority(Queue *head, unsigned priority)
+{
+    //Queue *tmp;
+    //int data;
+
+    if(head == NULL)
+    {
+        printf("Queue empty!");
+        return 0;
+    }
+    printf("Priority: %d\n", head->front->priority);
+
+    if(head->front->priority <= priority)
+        return pop(head);
+    
+    else
+        printf("Wrong priority");
+
+    return 0;
 }
 
 void print_queue(Queue *head)

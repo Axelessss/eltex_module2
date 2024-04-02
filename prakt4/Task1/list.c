@@ -8,7 +8,6 @@ List* InsertContact(List* head)
 {
     List* newItem = (List*)malloc(sizeof(struct List));
     List* tmp = head;
-    
     add(&(newItem->contact));
 
     // Вставка элемента в пустой список
@@ -22,8 +21,8 @@ List* InsertContact(List* head)
 
     // Вставка элемента в начало или середину списка
     do 
-    {
-        if(strcmp(newItem->contact.fio.surname, tmp->contact.fio.surname)==-1) 
+    {   
+        if(cmp_contacts(&(newItem->contact), &(tmp->contact))<=0) 
         {
             newItem->next = tmp;
             newItem->prev = tmp->prev;
@@ -35,22 +34,6 @@ List* InsertContact(List* head)
 
             return head;
             
-        }
-
-        else if(strcmp(newItem->contact.fio.surname, tmp->contact.fio.surname)==0) 
-        {
-            if(strcmp(newItem->contact.fio.name, tmp->contact.fio.name)==-1)
-            {
-                newItem->next = tmp;
-                newItem->prev = tmp->prev;
-                tmp->prev->next = newItem;
-                tmp->prev = newItem;
-
-                if(tmp == head) 
-                    head = newItem;
-                    
-                return head;
-            }
         }
         tmp = tmp->next;
 
@@ -70,7 +53,7 @@ List* ChangeContact(char* surname, char* name, List* head)
 
     if(NULL == head) 
     {
-        printf("List empty!\n");
+        printf("\nList empty!\n");
         return head;
     }
 
@@ -87,7 +70,7 @@ List* ChangeContact(char* surname, char* name, List* head)
 
     } while(tmp != head);
 
-    printf("Contact doesn\'t exists");
+    printf("\nContact doesn\'t exists\n");
     return head;
 }
 
@@ -97,7 +80,7 @@ List* DeleteContact(char *surname, char *name, List* head)
     // Если пытаемся удалить элемент из пустого списка
     if (NULL == head) 
     {
-        printf("List empty!\n");
+        printf("\nList empty!\n");
         return head;
     }
     // Поиск и удаление элемента
@@ -125,7 +108,7 @@ List* DeleteContact(char *surname, char *name, List* head)
     } while (tmp != head);
 
     // Если элемент не найден, выводим сообщение
-    printf("Contact doesn\'t exists");
+    printf("\nContact doesn\'t exists\n");
     return head;
 }
 
@@ -153,17 +136,18 @@ void PrintList(List* head)
     List* tmp = head;
     if (NULL == head) 
     {
-        printf("List empty!\n");
+        printf("\nList empty!\n");
         return;
     }
 
     do 
     {
         print_contact(&(tmp->contact));
+        printf("\n\n");
         tmp = tmp->next;
     } while (tmp != head);
 
-    printf("\n");
+    
 }
 
 void PrintContact(char* surname, char* name, List* head)
@@ -172,7 +156,7 @@ void PrintContact(char* surname, char* name, List* head)
     // Если пытаемся удалить элемент из пустого списка
     if (NULL == head) 
     {
-        printf("List empty!\n");
+        printf("\nList empty!\n");
         return;
     }
     // Поиск и удаление элемента
@@ -187,5 +171,5 @@ void PrintContact(char* surname, char* name, List* head)
     } while (tmp != head);
 
     // Если элемент не найден, выводим сообщение
-    printf("Contact doesn\'t exists");
+    printf("\nContact doesn\'t exists\n");
 }

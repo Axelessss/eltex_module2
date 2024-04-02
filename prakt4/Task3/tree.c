@@ -17,7 +17,7 @@ void Ins_Btree(Contact *new_contact, btree **q)
         return;
     }
 
-    if(cmp_contacts(&(*q)->contact, new_contact) == 1)
+    if(cmp_contacts(&(*q)->contact, new_contact) > 0)
         Ins_Btree(new_contact, &(*q)->left);
     else
         Ins_Btree(new_contact, &(*q)->right);
@@ -35,6 +35,106 @@ void Print_Btree(btree *p)
     print_contact(&(p->contact));//printf("%d ", p->value);
     printf("\n");
     Print_Btree(p->right);
+}
+
+void Print_Contact(char *surname, char *name, btree **node)
+{
+    Contact new_contact;
+
+    if (*node == NULL)
+    {
+        printf("Contact doesn\'t exist");
+        return;
+    }
+
+    strcpy(new_contact.fio.surname, surname);
+    strcpy(new_contact.fio.name, name);
+
+    if(cmp_contacts(&(*node)->contact, &new_contact) == 0)
+    {
+        print_contact(&(*node)->contact);
+        return;
+    }
+
+    else if(((*node)->left == NULL) && ((*node)->right == NULL))
+    {
+        printf("Contact dowsn\'t exist");
+        return;
+    }
+
+    if(cmp_contacts(&(*node)->contact, &new_contact) > 0)
+    {
+        if((*node)->left == NULL)
+        {
+            printf("Contact doesn\'t exist");
+            return;
+        }
+
+        Change_Contact(surname, name, &(*node)->left);
+        return;
+    }
+
+    if(cmp_contacts(&(*node)->contact, &new_contact) < 0)
+    {
+        if((*node)->right == NULL)
+        {
+            printf("Contact doesn\'t exist");
+            return;
+        }
+
+        Print_Contact(surname, name, &(*node)->right);
+        return;
+    }
+}
+
+void Change_Contact(char *surname, char *name, btree **node)
+{
+    Contact new_contact;
+
+    if (*node == NULL)
+    {
+        printf("Contact doesn\'t exist");
+        return;
+    }
+
+    strcpy(new_contact.fio.surname, surname);
+    strcpy(new_contact.fio.name, name);
+
+    if(cmp_contacts(&(*node)->contact, &new_contact) == 0)
+    {
+        change(&(*node)->contact);
+        return;
+    }
+
+    else if(((*node)->left == NULL) && ((*node)->right == NULL))
+    {
+        printf("Contact dowsn\'t exist");
+        return;
+    }
+
+    if(cmp_contacts(&(*node)->contact, &new_contact) > 0)
+    {
+        if((*node)->left == NULL)
+        {
+            printf("Contact doesn\'t exist");
+            return;
+        }
+
+        Change_Contact(surname, name, &(*node)->left);
+        return;
+    }
+
+    if(cmp_contacts(&(*node)->contact, &new_contact) < 0)
+    {
+        if((*node)->right == NULL)
+        {
+            printf("Contact doesn\'t exist");
+            return;
+        }
+
+        Change_Contact(surname, name, &(*node)->right);
+        return;
+    }
 }
 
 // Удаление вершины с заданным значением key
@@ -121,7 +221,7 @@ int Delete(char *surname, char *name, btree **node)
     }
 
     // поиск ключа в левом или правом поддереве
-    if(cmp_contacts(&((*node)->contact), &new_contact) == -1)
+    if(cmp_contacts(&((*node)->contact), &new_contact) < 0)
         return Delete(new_contact.fio.surname, new_contact.fio.name, &(*node)->right);
 
     return Delete(new_contact.fio.surname, new_contact.fio.name, &(*node)->left);

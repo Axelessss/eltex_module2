@@ -12,16 +12,19 @@ int main()
     head = enqueue(head, 4, 3);
     head = enqueue(head, 3, 2);
     head = enqueue(head, 6, 1);
-    head = enqueue(head, 10, 1);
-    //head = enqueue(head, 20, 2);
-
-    //printf("%d", head->front->data);
+    head = enqueue(head, 17, 1);
+    head = enqueue(head, 13, 6);
+    head = enqueue(head, 55, 4);
+    head = enqueue(head, 90, 8);
+    head = enqueue(head, 102, 10);
+    
+    print_queue(head);
+    
+    printf("\n%d\n", pop(head));
+    printf("\n%d\n\n", pop(head));
+    
+    
     print_queue(head);
     printf("\n%d\n\n", pop(head));
-    //printf("\n%d\n", head->front->data);
-    //printf("\n%d\n", head->rear->data);
-    print_queue(head);
-    printf("\n\n%d\n\n", pop(head));
-    print_queue(head);
-    //printf("%d\n", pop(head));
-}
+    printf("\n%d\n\n", pop(head));
+}  

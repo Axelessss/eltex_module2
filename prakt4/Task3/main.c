@@ -33,7 +33,7 @@ int main()
                 printf("Введите имя контакта, который хотите отредактировать: ");
                 scanf("%s", name);
 
-                //head = ChangeContact(surname, name, head);
+                Change_Contact(surname, name, &root);
                 break;
             
             case 3:
@@ -43,7 +43,7 @@ int main()
                 printf("Введите имя контакта, который хотите удалить: ");
                 scanf("%s", name);
 
-                //head = DeleteContact(surname, name, head);
+                printf("%d", Delete(surname, name, &root));
 
                 break;
 
@@ -58,7 +58,8 @@ int main()
                 printf("Введите имя контакта, который хотите просмотреть: ");
                 scanf("%s", name);
 
-                //PrintContact(surname, name, head);
+                
+                PrintContact(surname, name, &root);
                 break;
 
             case 6:

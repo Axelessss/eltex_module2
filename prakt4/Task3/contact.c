@@ -18,7 +18,7 @@ void add(Contact *contact)
 
     while (true)
     {
-        printf("Введите фамилиюe: ");
+        printf("Введите фамилию: ");
         scanf("%s", buffer);
 
         if (strlen(buffer)==0)
@@ -40,12 +40,14 @@ void add(Contact *contact)
 
         else
         {
-            printf("%s", buffer);
             strcpy(contact->fio.name, buffer2);
             break;
         }
     }
     
+    strcpy(contact->fio.partonymic, "");
+    strcpy(contact->job.corp, "");
+    strcpy(contact->job.title, "");
     contact->phone[0].count = 0;
     contact->email[0].count = 0;
     contact->socials[0].count = 0;
@@ -381,6 +383,7 @@ void print_contact(Contact *contact)
 
     printf("Фамилия: %s\n", contact->fio.surname);
     printf("Имя: %s\n", contact->fio.name);
+
     printf("Отчество: %s\n", contact->fio.partonymic);
     printf("Место работы: %s\n", contact->job.corp);
     printf("Должность: %s\n", contact->job.title);
@@ -460,9 +463,9 @@ void copy_contact(Contact *contact1, Contact *contact2)
 
 int cmp_contacts(Contact *contact1, Contact *contact2)
 {
-    if (strcmp(contact1->fio.surname, contact2->fio.surname)==1)
+    if (strcmp(contact1->fio.surname, contact2->fio.surname) > 0)
         return 1;
-    else if (strcmp(contact1->fio.surname, contact2->fio.surname)==-1)
+    else if (strcmp(contact1->fio.surname, contact2->fio.surname) < 0)
         return -1;
     
     else

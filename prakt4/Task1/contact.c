@@ -18,7 +18,7 @@ void add(Contact *contact)
 
     while (true)
     {
-        printf("Введите фамилиюe: ");
+        printf("Введите фамилию: ");
         scanf("%s", buffer);
 
         if (strlen(buffer)==0)
@@ -40,7 +40,6 @@ void add(Contact *contact)
 
         else
         {
-            printf("%s", buffer);
             strcpy(contact->fio.name, buffer2);
             break;
         }
@@ -406,4 +405,15 @@ void print_contact(Contact *contact)
         printf("Мессенджер: %s\n", contact->messengers[j].name);
         printf("Имя пользователя: %s\n", contact->messengers[j].nickname);
     }  
+}
+
+int cmp_contacts(Contact *contact1, Contact *contact2)
+{
+    if (strcmp(contact1->fio.surname, contact2->fio.surname) > 0)
+        return 1;
+    else if (strcmp(contact1->fio.surname, contact2->fio.surname) < 0)
+        return -1;
+    
+    else
+        return strcmp(contact1->fio.name, contact2->fio.name);     
 }
