@@ -8,7 +8,7 @@ List* InsertContact(List* head)
 {
     List* newItem = (List*)malloc(sizeof(struct List));
     List* tmp = head;
-    add(&(newItem->contact));
+    add_contact(&(newItem->contact));
 
     // Вставка элемента в пустой список
     if(NULL == head) 
@@ -62,7 +62,7 @@ List* ChangeContact(char* surname, char* name, List* head)
     {
         if(strcmp(tmp->contact.fio.surname, surname)==0 && strcmp(tmp->contact.fio.name, name)==0) 
         {
-            change(&(tmp->contact));
+            change_contact(&(tmp->contact));
             return head;
         }
 
@@ -142,8 +142,8 @@ void PrintList(List* head)
 
     do 
     {
-        print_contact(&(tmp->contact));
         printf("\n\n");
+        print_contact(&(tmp->contact));
         tmp = tmp->next;
     } while (tmp != head);
 

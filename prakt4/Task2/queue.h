@@ -1,13 +1,18 @@
-typedef struct Queue
+typedef struct Node
 {
     unsigned priority;
     int data;
-    struct Queue *front;
-    struct Queue *rear;
-    struct Queue *next;
+    struct Node *next;
+}Node;
+
+typedef struct Queue
+{
+    Node *front;
+    Node *rear;
 }Queue;
 
-Queue* enqueue( Queue *head, int x, unsigned priority);
+Queue *new_list();
+void insert( Queue *head, int x, unsigned priority);
 int pop(Queue *front);
 int pop_priority(Queue *head, unsigned priority);
 int pop_under_priority(Queue *head, unsigned priority);

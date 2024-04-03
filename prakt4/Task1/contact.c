@@ -8,7 +8,7 @@
 #define M 20
 #define U 100
 
-void add(Contact *contact)
+void add_contact(Contact *contact)
 {
     int con;
     int operation;
@@ -135,7 +135,7 @@ void add(Contact *contact)
         }
 }
 
-void change(Contact *contact)
+void change_contact(Contact *contact)
 {
     int operation;
     int sub_operation;

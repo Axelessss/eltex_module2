@@ -32,7 +32,7 @@ void Print_Btree(btree *p)
 
     Print_Btree(p->left);
     printf("\n");
-    print_contact(&(p->contact));//printf("%d ", p->value);
+    print_contact(&(p->contact));
     printf("\n");
     Print_Btree(p->right);
 }
@@ -225,4 +225,16 @@ int Delete(char *surname, char *name, btree **node)
         return Delete(new_contact.fio.surname, new_contact.fio.name, &(*node)->right);
 
     return Delete(new_contact.fio.surname, new_contact.fio.name, &(*node)->left);
+}
+
+void Delete_Tree(btree **node)
+{
+
+    if (*node != NULL) 
+    {
+		Delete_Tree(&(*node)->left);
+		Delete_Tree(&(*node)->right);
+		free(*node);
+        *node = NULL;
+	}
 }

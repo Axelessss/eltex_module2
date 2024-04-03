@@ -48,7 +48,7 @@ int main()
                 break;
 
             case 4:
-                //head = DeleteList(head);
+                Delete_Tree(&root);
                 break;
             
             case 5:
@@ -59,7 +59,7 @@ int main()
                 scanf("%s", name);
 
                 
-                PrintContact(surname, name, &root);
+                Print_Contact(surname, name, &root);
                 break;
 
             case 6:

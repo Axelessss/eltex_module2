@@ -12,3 +12,4 @@ void Print_Btree(btree *p);
 int Delete(char *surname, char *name, btree **node);
 void Change_Contact(char *surname, char *name, btree **node);
 void Print_Contact(char *surname, char *name, btree **node);
+void Delete_Tree(btree **node);
