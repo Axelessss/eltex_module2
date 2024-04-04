@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "queue.h"
 
 Queue *new_list() 
@@ -10,7 +11,7 @@ Queue *new_list()
     return head;
 }
 
-void insert( Queue *head, int data, unsigned priority)
+void insert(Queue *head, int data, unsigned priority)
 {
     Node* buf = (Node*)malloc(sizeof(Node));
     Node* tmp;
@@ -36,6 +37,7 @@ void insert( Queue *head, int data, unsigned priority)
 
     tmp = head->front;
 
+
     while(tmp->next != NULL)
     {
         if(buf->priority < tmp->next->priority)
@@ -46,29 +48,13 @@ void insert( Queue *head, int data, unsigned priority)
         }
         tmp = tmp->next;
     }
+
     tmp->next = head->rear = buf;
     
     return;
 }
 
-int pop(Queue *head)
-{
-    Node *tmp;
-    int data;
-
-    if(head == NULL)
-    {
-        printf("Queue empty!");
-        return 0;
-    }
-        tmp = head->front;
-        data = tmp->data;
-        head->front = head->front->next;
-        free(tmp);
-    return data;
-}
-
-int pop_priority(Queue *head, unsigned priority)
+int pop(Queue *head, int priority)
 {
     Node *tmp, *buf;
     int data;
@@ -81,52 +67,68 @@ int pop_priority(Queue *head, unsigned priority)
 
     tmp = head->front;
 
-    if(tmp->priority == priority)
+    if(priority == 0)
     {
-        return pop(head);
+        
+        data = tmp->data;
+        head->front = head->front->next;
+        free(tmp);
     }
 
-    while(tmp->next != NULL)
+    else if(priority < 0)
     {
-        if(tmp->next->priority == priority)
-        {
-            if(tmp->next == head->rear)
-            {
-                head->rear = tmp;
-            }
+        priority = abs(priority);
 
-            buf = tmp->next;
-            data = buf->data;
-            tmp->next = tmp->next->next;
-            free(buf);
+        if(head->front->priority <= priority)
+        {
+            data = tmp->data;
+            head->front = head->front->next;
+            free(tmp);
+        }
+    
+        else
+        {
+            printf("Wrong priority");
+            return -1;
+        }
+    }
+
+    else
+    {
+        if(tmp->priority == priority)
+        {
+            data = tmp->data;
+            head->front = head->front->next;
+            free(tmp);
             return data;
         }
-        tmp = tmp->next;
-    }
+        
+        while(tmp->next != NULL)
+        {
+            if(tmp->next->priority == priority)
+            {
+                if(tmp->next == head->rear)
+                {
+                    head->rear = tmp;
+                }
 
-    if(tmp->next == NULL)
-    {
-        printf("Wrong priority");
-    }
-    return -1;
-}
+                buf = tmp->next;
+                data = buf->data;
+                tmp->next = tmp->next->next;
+                free(buf);
+                return data;
+            }
+            tmp = tmp->next;
+        }
 
-int pop_under_priority(Queue *head, unsigned priority)
-{
-
-    if(head == NULL)
-    {
-        printf("Queue empty!");
-        return 0;
-    }
-
-    if(head->front->priority <= priority)
-        return pop(head);
+        if(tmp->next == NULL)
+        {
+            printf("Wrong priority");
+        }
     
-    else
-        printf("Wrong priority");
-
-    return -1;
+    }
+    
+    return data;
 }
 
 void print_queue(Queue *head)

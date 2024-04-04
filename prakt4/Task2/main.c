@@ -8,7 +8,7 @@ int main()
     Queue *head = NULL;
     int action;
     int data;
-    unsigned priority;
+    int priority;
     unsigned size;
     head = new_list();
 
@@ -25,7 +25,7 @@ int main()
                 scanf("%d", &data);
 
                 printf("\nВведите приоритет(целое число от 0 до 255): ");
-                scanf("%u", &priority);
+                scanf("%d", &priority);
 
                 if(priority > 255)
                 {
@@ -37,33 +37,33 @@ int main()
                 break;
             
             case 2:
-                printf("\nИзвлечённый элемент: %d\n", pop(head));
+                printf("\nИзвлечённый элемент: %d\n", pop(head, 0));
                 break;
 
             case 3:
-                printf("\nВведите приоритет(целое число от 0 до 255): ");
-                scanf("%u", &priority);
+                printf("\nВведите приоритет(целое число от 1 до 255): ");
+                scanf("%d", &priority);
 
-                if(priority > 255)
+                if(priority > 255 || priority <= 0)
                 {
-                    printf("\nПриоритет должен быть в диапазоне от 0 до 255\n");
+                    printf("\nПриоритет должен быть в диапазоне от 1 до 255\n");
                     continue;
                 }
 
-                printf("\nИзвлечённый элемент: %d\n", pop_priority(head, priority));
+                printf("\nИзвлечённый элемент: %d\n", pop(head, priority));
                 break;
             
             case 4:
-                printf("\nВведите приоритет(целое число от 0 до 255): ");
-                scanf("%u", &priority);
+                printf("\nВведите приоритет(целое число от 1 до 255): ");
+                scanf("%d", &priority);
 
-                if(priority > 255)
+                if(priority > 255 || priority <= 0)
                 {
-                    printf("\nПриоритет должен быть в диапазоне от 0 до 255\n");
+                    printf("\nПриоритет должен быть в диапазоне от 1 до 255\n");
                     continue;
                 }
 
-                printf("\nИзвлечённый элемент: %d\n", pop_under_priority(head, priority));
+                printf("\nИзвлечённый элемент: %d\n", pop(head, -priority));
                 break;
 
             case 5:

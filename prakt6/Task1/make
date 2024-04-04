@@ -1,0 +1,4 @@
+#!/bin/bash
+
+gcc main.c contact.c -o main -L. -llist
+chmod +x main

@@ -2,3 +2,4 @@
 
 gcc main.c contact.h contact.c email.h fio.h job.h tree.h tree.c messenger.h phone.h social.h -o main
 chmod +x main
+./main

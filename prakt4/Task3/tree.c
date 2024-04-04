@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <curses.h>
+//#include <curses.h>
 #include "tree.h"
 
 // Поиск с включением
@@ -17,10 +17,15 @@ void Ins_Btree(Contact *new_contact, btree **q)
         return;
     }
 
-    if(cmp_contacts(&(*q)->contact, new_contact) > 0)
+    if(cmp_contacts(new_contact, &(*q)->contact) < 0)
         Ins_Btree(new_contact, &(*q)->left);
-    else
+    else if(cmp_contacts(new_contact, &(*q)->contact) > 0)
         Ins_Btree(new_contact, &(*q)->right);
+    else
+        {
+            printf("Contact already exist");
+            return;
+        }
 
 }
 
