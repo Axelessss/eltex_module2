@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "queue.h"
 
 Queue *new_list() 
@@ -11,53 +10,57 @@ Queue *new_list()
     return head;
 }
 
-void insert(Queue *head, int data, unsigned priority)
+void insert(Queue *pq, int data, int priority)
 {
-    Node* buf = (Node*)malloc(sizeof(Node));
-    Node* tmp;
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->priority = priority;
 
-	buf->data = data;
-    buf->priority = priority;
-    buf->next = NULL;
-
-    if(head->front == NULL)
+    if (pq->front == NULL) 
     {
-        head->front = buf;
-        head->rear = buf;
-        return;
-    }
-    
+        pq->front = newNode;
+        pq->rear = newNode;
+    } 
 
-    if(head->front->priority > buf->priority)
+    else 
     {
-        buf->next = head->front;
-        head->front = buf;
-        return;
-    }
-
-    tmp = head->front;
-
-
-    while(tmp->next != NULL)
-    {
-        if(buf->priority < tmp->next->priority)
+        if (priority > pq->front->priority) 
         {
-            buf->next = tmp->next;
-            tmp->next = buf;
-            return;
-        }
-        tmp = tmp->next;
-    }
+            newNode->next = pq->front;
+            pq->front->prev = newNode;
+            pq->front = newNode;
 
-    tmp->next = head->rear = buf;
-    
-    return;
+        } 
+
+        else if (priority < pq->rear->priority) 
+        {
+            newNode->prev = pq->rear;
+            pq->rear->next = newNode;
+            pq->rear = newNode;
+        } 
+        
+        else 
+        {
+            Node *curr = pq->front;
+            while (curr->next != NULL && priority < curr->next->priority) 
+            {
+                curr = curr->next;
+            }
+            newNode->next = curr->next;
+            if (curr->next != NULL) 
+            {
+                curr->next->prev = newNode;
+            }
+            curr->next = newNode;
+            newNode->prev = curr;
+        }
+    }
 }
 
 int pop(Queue *head, int priority)
 {
     Node *tmp, *buf;
-    int data;
+    int data = -1;
 
     if(head == NULL)
     {
@@ -65,13 +68,13 @@ int pop(Queue *head, int priority)
         return 0;
     }
 
-    tmp = head->front;
+    tmp = head->rear;
 
     if(priority == 0)
     {
-        
         data = tmp->data;
-        head->front = head->front->next;
+        head->rear = head->rear->prev;
+        head->rear->next = NULL;
         free(tmp);
     }
 
@@ -79,46 +82,52 @@ int pop(Queue *head, int priority)
     {
         priority = abs(priority);
 
-        if(head->front->priority <= priority)
+        if(head->rear->priority <= priority)
         {
             data = tmp->data;
-            head->front = head->front->next;
+            head->rear = head->rear->prev;
+            head->rear->next = NULL;
             free(tmp);
         }
     
         else
         {
             printf("Wrong priority");
-            return -1;
         }
     }
 
     else
     {
-        if(tmp->priority == priority)
+        if(head->rear->priority == priority)
         {
             data = tmp->data;
-            head->front = head->front->next;
+            head->rear = head->rear->prev;
+            head->rear->next = NULL;
             free(tmp);
-            return data;
         }
         
-        while(tmp->next != NULL)
+        else if(head->front->priority == priority && head->front->next->priority != priority)
         {
-            if(tmp->next->priority == priority)
-            {
-                if(tmp->next == head->rear)
-                {
-                    head->rear = tmp;
-                }
+            data = head->front->data;
+            buf = head->front;
+            head->front = head->front->next;
+            head->front->prev = NULL;
+            free(buf);
+            return data;
+        }
 
-                buf = tmp->next;
-                data = buf->data;
-                tmp->next = tmp->next->next;
-                free(buf);
+        while(tmp->prev != NULL)
+        {
+            if(tmp->priority == priority)
+            {
+                data = tmp->data;
+                tmp->next->prev = tmp->prev;
+                tmp->prev->next = tmp->next;
+
+                free(tmp);
                 return data;
             }
-            tmp = tmp->next;
+            tmp = tmp->prev;
         }
 
         if(tmp->next == NULL)
@@ -127,7 +136,6 @@ int pop(Queue *head, int priority)
         }
     
     }
-    
     return data;
 }
 

@@ -1,8 +1,9 @@
 typedef struct Node
 {
-    unsigned priority;
+    int priority;
     int data;
     struct Node *next;
+    struct Node *prev;
 }Node;
 
 typedef struct Queue
@@ -12,6 +13,6 @@ typedef struct Queue
 }Queue;
 
 Queue *new_list();
-void insert( Queue *head, int x, unsigned priority);
+void insert( Queue *head, int x, int priority);
 int pop(Queue *front, int priority);
 void print_queue(Queue *head);

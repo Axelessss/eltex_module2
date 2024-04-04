@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include "header.h"
+#include "operations.h"
 
 
 bool input(int operation, bool shutdown)
@@ -72,41 +72,6 @@ bool input(int operation, bool shutdown)
         printf("Результат = %f\n", result);
         return false;
     }
-}
-
-float sum(float a, float b)
-{
-    return a+b;
-}
-
-float subtract(float a, float b)
-{
-    return a-b;
-}
-
-float mul(float a, float b)
-{
-    return a*b;
-}
-
-float div(float a, float b)
-{
-    return a/b;
-}
-
-float deg(float a, float b)
-{
-    return pow(a, b);
-}
-
-float root(float a, float b)
-{
-    return pow(a, 1/b);
-}
-
-float e(float a)
-{
-    return exp(a);
 }
 
 int main()

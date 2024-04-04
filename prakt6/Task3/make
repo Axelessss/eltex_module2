@@ -1,0 +1,11 @@
+#!/bin/bash
+
+gcc -shared sum.o -o libsum.so
+gcc -shared subtract.o -o libsubtract.so
+gcc -shared mul.o -o libmul.so
+gcc -shared div.o -o libdiv.so
+gcc -shared deg.o -o libdeg.so
+gcc -shared root.o -o libroot.so
+
+
+
