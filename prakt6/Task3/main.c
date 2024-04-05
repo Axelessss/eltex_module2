@@ -31,16 +31,6 @@ void input(int action, bool *shutdown, char *path, char *operation, float *a, fl
                 strcpy(operation, "div");
                 break;
             
-            case 5:
-                strcpy(path, "./libdeg.so");
-                strcpy(operation, "deg");
-                break;
-            
-            case 6:
-                strcpy(path, "./libroot.so");
-                strcpy(operation, "root");
-                break;
-            
             default:
                 *shutdown=true;
                 break;
@@ -72,7 +62,7 @@ int main()
     while (true)
     {
         printf("\nВыберите действие: ");
-        printf("\n1-сложение\n2-вычитание\n3-умножение\n4-деление\n5-возведение в степень\n6-корень n-й степени\nЛюбая другая кнопка-завершить работу\n");
+        printf("\n1-сложение\n2-вычитание\n3-умножение\n4-деление\nЛюбая другая кнопка-завершить работу\n");
         scanf("%d", &action);
         input(action, &shutdown, lib, operation, &a, &b);
 

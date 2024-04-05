@@ -5,12 +5,12 @@
 
 int main()
 {
-    Queue *head = NULL;
+    Queue *queue = NULL;
     int action;
     int data;
     int priority;
     unsigned size;
-    head = new_list();
+    queue = new_list();
 
     while(true)
     {
@@ -33,11 +33,11 @@ int main()
                     continue;
                 }
 
-                insert(head, data, priority);
+                insert(queue, data, priority);
                 break;
             
             case 2:
-                printf("\nИзвлечённый элемент: %d\n", pop(head, 0));
+                printf("\nИзвлечённый элемент: %d\n", pop(queue, 0));
                 break;
 
             case 3:
@@ -50,7 +50,7 @@ int main()
                     continue;
                 }
 
-                printf("\nИзвлечённый элемент: %d\n", pop(head, priority));
+                printf("\nИзвлечённый элемент: %d\n", pop(queue, priority));
                 break;
             
             case 4:
@@ -63,7 +63,7 @@ int main()
                     continue;
                 }
 
-                printf("\nИзвлечённый элемент: %d\n", pop(head, -priority));
+                printf("\nИзвлечённый элемент: %d\n", pop(queue, -priority));
                 break;
 
             case 5:
@@ -75,12 +75,12 @@ int main()
                     data = rand()%1000;
                     priority = 0 + rand()%255;
                     
-                    insert(head, data, priority);
+                    insert(queue, data, priority);
                 }
                 break;
 
             case 6:
-                print_queue(head);
+                print_queue(queue);
                 break;
             
             default:
