@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "functional": "c",
+        "operations.h": "c"
+    }
+}
